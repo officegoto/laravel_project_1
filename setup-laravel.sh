@@ -16,25 +16,20 @@ php artisan config:clear
 php artisan cache:clear
 php artisan view:clear
 
+# cache テーブルを作成するためのマイグレーションファイルを生成
+echo "Generating cache table migration..."
+php artisan cache:table
+
 # 必要なマイグレーションを実行
 echo "Running migrations..."
 php artisan migrate
 
-# セッションテーブルが必要な場合に作成
-if [ ! -f "database/migrations/2022_XX_XX_XXXXXX_create_sessions_table.php" ]; then
-    echo "Creating session table migration..."
-    php artisan session:table
-    php artisan migrate
-else
-    echo "Session table migration already exists."
-fi
+# APP_KEY を生成
+php artisan key:generate
 
 # パーミッションを再確認
 echo "Verifying permissions for storage and cache directories..."
 chown -R www-data:www-data storage bootstrap/cache
 chmod -R 775 storage bootstrap/cache
-
-# APP_KEY
-php artisan key:generate
 
 echo "Laravel setup is complete."

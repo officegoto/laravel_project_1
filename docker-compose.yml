@@ -36,9 +36,11 @@ services:
     restart: unless-stopped
     ports:
       - "3306:3306"
+    env_file:
+      - ./docker/.env.docker
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
       - db_data:/var/lib/mysql
     networks:
